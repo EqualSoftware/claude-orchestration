@@ -1,0 +1,47 @@
+name: Bug report
+description: Something does not work as the docs say.
+labels: [bug]
+body:
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened
+      description: Give the request, the agent, the output and what you expected.
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. Start a session with dx-agents enabled
+        2. ...
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: dx-agents version
+      description: The `version` in `.claude-plugin/plugin.json`, or the version in `/plugin`.
+    validations:
+      required: true
+  - type: input
+    id: claude-version
+    attributes:
+      label: Claude Code version
+      description: Output of `claude --version`.
+    validations:
+      required: true
+  - type: dropdown
+    id: os
+    attributes:
+      label: Operating system
+      options: [macOS, Linux, Windows]
+    validations:
+      required: true
+  - type: textarea
+    id: profile
+    attributes:
+      label: dx-agents profile
+      description: The `## dx-agents profile` section of the project CLAUDE.md, if it has one.
+      render: md

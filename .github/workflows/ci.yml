@@ -1,0 +1,53 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    # The release pull request changes only these files, and GitHub does not run
+    # workflows for pull requests of the Actions bot without a manual approval.
+    paths-ignore:
+      - CHANGELOG.md
+      - .release-please-manifest.json
+
+permissions:
+  contents: read
+
+# A new push to the same branch or pull request cancels the older run.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    defaults:
+      run:
+        # Git Bash on Windows, the same shell that runs the hooks there.
+        shell: bash
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Install jq
+        # The runner images usually have jq. Install it only if it is missing.
+        run: |
+          command -v jq && exit 0
+          case "$RUNNER_OS" in
+            macOS) brew install jq ;;
+            Windows) choco install jq --no-progress -y ;;
+            Linux) sudo apt-get install --yes jq ;;
+          esac
+      - name: Install Claude Code
+        # The runner has Node.js. Keep this version in step with the tested one.
+        run: npm install --global @anthropic-ai/claude-code@2.1.308
+      - name: Validate
+        run: claude plugin validate --strict .
+      - name: Hook tests
+        run: tests/hooks.sh
+      - name: Lint
+        # ShellCheck is on the Linux runner. The result is the same on each system.
+        if: runner.os == 'Linux'
+        run: shellcheck hooks/*.sh scripts/*.sh tests/*.sh

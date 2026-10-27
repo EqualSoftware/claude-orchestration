@@ -1,0 +1,27 @@
+name: Release
+
+# A push to main runs release-please. It keeps a release pull request open with
+# the next SemVer version, CHANGELOG.md and the version in plugin.json. When the
+# pull request is merged, it creates the tag and the GitHub release.
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+  pull-requests: write
+
+# Do not cancel a release in progress. A partial release is worse than a wait.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  release-please:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: googleapis/release-please-action@45996ed1f6d02564a971a2fa1b5860e934307cf7 # v5.0.0
+        with:
+          config-file: release-please-config.json
+          manifest-file: .release-please-manifest.json

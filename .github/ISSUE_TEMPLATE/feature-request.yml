@@ -1,0 +1,23 @@
+name: Feature request
+description: Propose a new agent, rule or behavior.
+labels: [enhancement]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: What work is slow, costs many tokens or gives different results each time?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposal
+      description: What should dx-agents do?
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives
+      description: Other solutions that you considered.

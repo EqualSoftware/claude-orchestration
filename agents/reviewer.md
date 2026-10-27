@@ -32,6 +32,12 @@ The brief gives: the diff or the worktree path, the objective, and the areas to 
 - Do not repeat an investigation that the brief already gives.
 - Report facts with `path:line`. Mark a suspected issue that you did not confirm as SUSPECTED.
 
+## Tools for code and files
+
+- To find where a symbol is defined, used or implemented, call the `LSP` tool first (`goToDefinition`, `findReferences`, `workspaceSymbol`, `documentSymbol`, `goToImplementation`, `hover`, `incomingCalls`, `outgoingCalls`). It works only when a code intelligence plugin is installed for the language. If `LSP` is not callable, load it with ToolSearch. If it is not found, or it reports no server for the file, use Grep.
+- Use Grep for text that is not a symbol: strings, comments and docs. Find files by name with Glob.
+- Read files with Read (use offset and limit). Use Bash for builds, tests and project commands.
+
 ## Report
 
 Give a short report:

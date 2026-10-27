@@ -28,6 +28,12 @@ Do all items in the brief, in order, in one run. Do not stop after the first ite
 - Read only what the objective needs. Report facts, not guesses.
 - Obey the Language rule of `RULES.md` when you write docs.
 
+## Tools for code and files
+
+- To find where a symbol is defined, used or implemented, call the `LSP` tool first (`goToDefinition`, `findReferences`, `workspaceSymbol`, `documentSymbol`, `goToImplementation`, `hover`, `incomingCalls`, `outgoingCalls`). It works only when a code intelligence plugin is installed for the language. If `LSP` is not callable, load it with ToolSearch. If it is not found, or it reports no server for the file, use Grep.
+- Use Grep for text that is not a symbol: strings, comments and docs. Find files by name with Glob.
+- Read files with Read (use offset and limit), and change docs with Edit or Write. Use Bash only for the commands that the brief gives.
+
 ## Report
 
 Give a short report:

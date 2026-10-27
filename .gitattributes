@@ -1,0 +1,3 @@
+# Use LF on all platforms. A shell script with CRLF fails to run.
+* text=auto eol=lf
+*.png binary

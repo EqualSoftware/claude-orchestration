@@ -1,0 +1,15 @@
+{
+  "name": "claude-orchestration",
+  "description": "Agent orchestration for Claude Code: an architect agent, worker agents and guard hooks",
+  "owner": {
+    "name": "Equal Software"
+  },
+  "plugins": [
+    {
+      "name": "dx-agents",
+      "description": "Architect and worker agents, shared rules and guard hooks for any project",
+      "source": "./",
+      "category": "development"
+    }
+  ]
+}

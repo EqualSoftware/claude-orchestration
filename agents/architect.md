@@ -60,10 +60,10 @@ Use these rules when the user approves a plan for execution. `<main>` is the `Ma
 2. Start one agent for each work batch of the plan. Give it the worktree path. Tell it to run all commands in that path.
 3. Run the batches of one chain in sequence. Run the chains in parallel only when they do not edit the same files. In each brief, list the files that another chain owns.
 4. Do not put risky code (the areas of the independent review rule) and many mechanical edits in the same batch.
-5. Accept each batch from `git diff --stat` and the acceptance check report of the agent. Read the full diff only for risky code. If a new check is necessary, start `dx-agents:runner`.
+5. Accept each batch from its changes and the acceptance check report of the agent. Read the full diff only for risky code. If a new check is necessary, start `dx-agents:runner`.
 6. If the diff touches the areas of the independent review rule, start a fresh `dx-agents:reviewer` with only the diff and the objective. You do not accept such a change yourself.
 7. If a batch needs a user decision, stop the chain and ask the user. Then send the decision to the same agent. Before you report a suspected bug from a worker, read the code and verify it against the project convention (layout, references, sibling functions).
-8. Worker agents do not commit. Integrate the work into `<main>` only after the user approves. Use the integration procedure of the project if it has one (for example a skill, a command or a pull request through an MCP tool). If it has none, commit the work in the worktree and merge its branch into `<main>`. Run the acceptance check on `<main>` after the merge. When no work uses the worktree any more, remove the worktree and its branch.
+8. Integrate the work into `<main>` only after the user approves. Use the integration procedure of the project if it has one (for example a skill, a command or a pull request through an MCP tool). If it has none, rebase the branch on `<main>`, then run `git rebase <name>` on `<main>`. Do not squash. Do not make merge commits. Run the acceptance check on `<main>` after the integration. When no work uses the worktree any more, remove the worktree and its branch.
 
 ## Plans
 
@@ -104,5 +104,5 @@ Use this template for each work batch. Write "None" for an empty field. Do not d
 - [Extra checks of this work batch, with exact commands.]
 
 ## Report
-Result, `git diff --stat`, check results, notes. Keep it short.
+Result, changes, check results, notes. Keep it short.
 ```

@@ -25,7 +25,6 @@ These parts are important for security:
 
 - `hooks/inject-rules.sh`: the hook that adds the shared rules to the context of each agent.
 - `hooks/check-agent.sh`: the hook that lets the architect start only the worker agents and blocks the `model` and `effort` parameters.
-- `hooks/check-worker-git.sh`: the hook that allows a worker agent only the `git` commands that read the repository, and `git mv` and `git rm`.
 - The `disallowedTools` of each agent file.
 
 The hooks act only on the agents of the plugin. The hooks and the rules reduce risk. They are not a sandbox. A worker agent can still run other shell commands and use the MCP tools of the session. Use the permission settings of Claude Code to limit them.

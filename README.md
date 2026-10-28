@@ -7,7 +7,7 @@ The plugin gives:
 - **Agents.** `dx-agents:architect` is the main session agent (Opus). It plans and orchestrates. The workers are `dx-agents:builder`, `dx-agents:builder-fast`, `dx-agents:scout`, `dx-agents:runner`, `dx-agents:reviewer` and `dx-agents:researcher` (Sonnet and Haiku).
 - **Tools.** The agents set `disallowedTools`, not a closed `tools` list. They get all the tools of the session, also the language servers, skills and MCP tools of the project. The workers cannot start agents. `dx-agents:runner`, `dx-agents:reviewer` and `dx-agents:researcher` do not get the file edit tools.
 - **Tool order.** An agent that reads or changes code or files uses the language server first, then the tools of the project (skills, MCP tools, formatters, linters, generators, build and task scripts), and the generic file tools last.
-- **Hooks.** The hooks act only on the agents of the plugin. One hook adds `RULES.md` to the context of each agent. One hook lets the architect start only the worker agents and blocks the `model` and `effort` parameters. One hook allows a worker agent only the `git` commands that read the repository, and `git mv` and `git rm`.
+- **Hooks.** The hooks act only on the agents of the plugin. One hook adds `RULES.md` to the context of each agent. One hook lets the architect start only the worker agents and blocks the `model` and `effort` parameters.
 - **Rules.** `RULES.md` holds the shared rules. Each agent obeys them and the `CLAUDE.md` of the project.
 
 The architect runs only in the projects where you turn it on. See [Install](#install).
@@ -205,7 +205,7 @@ The values above are an example. Use the values of your project.
 
 ## Project settings
 
-The plugin needs no permissions in the project. Apart from the install, the only setting is the `agent` key that turns on the architect. The hooks block the agent types that the workflow does not use, and the `git` commands that change the repository state when a worker runs them.
+The plugin needs no permissions in the project. Apart from the install, the only setting is the `agent` key that turns on the architect. The hooks block the agent types that the workflow does not use.
 
 The permissions of Claude Code still apply. For fewer permission prompts, allow the commands that the agents run often, for example the command of `Acceptance check`. Add them to `permissions.allow` in `.claude/settings.json` of the project (for all the people) or in `.claude/settings.local.json` (for you only). For example, for `make check` and read-only `git` commands:
 

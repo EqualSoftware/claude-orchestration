@@ -30,7 +30,8 @@ The project `CLAUDE.md` can have a section `## dx-agents profile`. It holds the 
 - Types: `feat`, `fix`, `perf`, `refactor`, `test`, `docs`, `build`, `ci`, `style`, `chore`, `revert`.
 - Mark an incompatible change with `!` after the type, or with a `BREAKING CHANGE:` footer.
 - Scope is the target or module. The profile can list examples.
-- Only the main session commits, and only when the user asks. Stage files by name.
+- A worker agent that changes files commits its changes before it reports.
+- Only the main session pushes, and only when the user tells it to push. Stage files by name.
 
 ### Changes
 
@@ -62,7 +63,7 @@ To run the acceptance check:
 The project can give its own skills, commands, MCP tools and language servers. The agents of the plugin get all the tools of the session, except the tools that their file disallows.
 
 - Use a project tool when it applies to the work. Prefer it to a manual procedure for the same work.
-- The procedures for planning, commits, integration, publication and questions to the user belong to the main session. A worker agent does not run them.
+- The procedures for planning, integration, publication and questions to the user belong to the main session. A worker agent does not run them.
 - The brief can name the project tools that a worker must use.
 
 ### Code and file work
@@ -89,7 +90,7 @@ The main session runs as `dx-agents:architect` (Opus) when the project sets `age
 
 - The worker agents are the other files in `agents/`. They use Sonnet or Haiku. Each agent file sets its model and effort.
 - Select a worker from the `description` in its file. Do not pass a `model` or `effort` parameter. In a session of the architect, a hook of the plugin blocks other agent types, the `model` and `effort` parameters and Opus workers.
-- A worker agent does not start other agents and does not commit. A hook of the plugin allows a worker agent only the `git` commands that read the repository, and `git mv` and `git rm`.
+- A worker agent does not start other agents.
 - A subagent cannot ask the user. Plans and decisions with the user stay in the main session.
 - `.claude/worktrees/` holds the worktrees of the architect. Exclude it when you search the repository.
 

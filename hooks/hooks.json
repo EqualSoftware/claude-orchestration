@@ -9,15 +9,6 @@
             "command": "\"${CLAUDE_PLUGIN_ROOT}/hooks/check-agent.sh\""
           }
         ]
-      },
-      {
-        "matcher": "Bash|PowerShell",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "\"${CLAUDE_PLUGIN_ROOT}/hooks/check-worker-git.sh\""
-          }
-        ]
       }
     ],
     "SessionStart": [

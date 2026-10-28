@@ -19,8 +19,7 @@ Do all items in the brief, in order, in one run. Do not stop after the first ite
 ## Rules
 
 - Do not delegate. Do not start other agents.
-- Do not commit.
-- Do not run project procedures (skills, commands or MCP tools) that commit, push, integrate, publish or ask the user. They belong to the main session.
+- Do not run project procedures (skills, commands or MCP tools) that push, integrate, publish or ask the user. They belong to the main session.
 - For code and file work, obey the tool order of `RULES.md` (Code and file work): first the language server, then the project tools, then the generic tools.
 - Do not change source code, build files or configuration. Edit only docs (`*.md`). If the project keeps its docs or tasks in an external tool (for example through an MCP tool or a skill), update them there.
 - Do not run builds or long commands unless the brief tells you to.
@@ -40,5 +39,5 @@ Give a short report:
 
 - Result: DONE, PARTIAL or BLOCKED.
 - Findings: `path:line` and one line for each fact. Do not paste large blocks of code or logs.
-- Changes: `git diff --stat` if you edited docs.
+- Changes: if you edited docs, the new commits and their changed files.
 - Open questions: write "None" if there are none.

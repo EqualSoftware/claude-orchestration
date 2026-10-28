@@ -23,9 +23,6 @@ expect() {
 ARCHITECT="$PLUGIN:architect"
 # agent <subagent_type> [session agent_type]
 agent() { jq -nc --arg t "$1" --arg s "${2-$ARCHITECT}" '{tool_input: {subagent_type: $t}} + (if $s == "" then {} else {agent_type: $s} end)'; }
-# worker_cmd <command> [subagent agent_type]
-worker_cmd() { jq -nc --arg c "$1" --arg t "${2-$PLUGIN:builder}" '{agent_id: "a1", agent_type: $t, tool_input: {command: $c}}'; }
-main_cmd() { jq -nc --arg c "$1" --arg s "$ARCHITECT" '{agent_type: $s, tool_input: {command: $c}}'; }
 
 for name in builder builder-fast scout runner reviewer researcher; do
   expect check-agent.sh allow "$(agent "$PLUGIN:$name")"
@@ -42,23 +39,6 @@ expect check-agent.sh deny "$(jq -nc --arg t "$PLUGIN:builder" --arg s "$ARCHITE
 expect check-agent.sh allow "$(agent "Explore" "")"
 expect check-agent.sh allow "$(agent "general-purpose" "general-purpose")"
 expect check-agent.sh allow "$(jq -nc '{tool_input: {subagent_type: "Plan", model: "opus"}}')"
-
-for c in "git status" "git diff --stat" "git log -5" "git -C /tmp/x show HEAD" "git branch --show-current" \
-  "git worktree list" "git mv a b" "ls && git status"; do
-  expect check-worker-git.sh allow "$(worker_cmd "$c")"
-done
-# shellcheck disable=SC2016 # The command text must stay literal.
-for c in "git push" "git commit -m x" "git add ." "git -C /tmp/x commit -m x" "git branch -D x" \
-  "git worktree add x" "git checkout main" "git reset --hard" "git stash" 'sh -c "git push"' \
-  "ls; git push" "/usr/bin/git push" 'git $(echo push)' "git.exe push" "Git push" \
-  'C:\Program Files\Git\cmd\git.exe commit -m x' "& git commit -m x" "git status; git push origin main" \
-  '"C:\Program Files\Git\cmd\git.exe" push'; do
-  expect check-worker-git.sh deny "$(worker_cmd "$c")"
-done
-expect check-worker-git.sh allow "$(main_cmd "git commit -m x")"
-# Subagents that are not of the plugin are not changed.
-expect check-worker-git.sh allow "$(worker_cmd "git push" "Explore")"
-expect check-worker-git.sh allow "$(worker_cmd "git commit -m x" "")"
 
 # expect_rules <yes|no> <json input>
 expect_rules() {
@@ -99,8 +79,6 @@ expect_nojq() {
 }
 expect_nojq check-agent.sh 2 "$(agent "$PLUGIN:builder")"
 expect_nojq check-agent.sh 0 "$(agent "Explore" "")"
-expect_nojq check-worker-git.sh 2 "$(worker_cmd "git push")"
-expect_nojq check-worker-git.sh 0 "$(worker_cmd "git push" "Explore")"
 expect_nojq inject-rules.sh 0 "$(rules_input SubagentStart "$PLUGIN:builder")"
 rm -rf "$NOJQ"
 

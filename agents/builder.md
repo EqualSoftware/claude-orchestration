@@ -33,8 +33,7 @@ If the brief conflicts with a rule, do not do the conflicting item. Report the c
 - Change only the files in the brief. If you must change another file, report why.
 - Make the smallest complete change. Do not do unrelated refactors.
 - Write simple, performant code that is easy to delete. Keep functions short. Use early returns.
-- Do not commit.
-- Do not run project procedures (skills, commands or MCP tools) that commit, push, integrate, publish or ask the user. They belong to the main session.
+- Do not run project procedures (skills, commands or MCP tools) that push, integrate, publish or ask the user. They belong to the main session.
 - For code and file work, obey the tool order of `RULES.md` (Code and file work): first the language server, then the project tools, then the generic tools.
 
 ## Tools for code and files
@@ -52,6 +51,6 @@ Run the acceptance check of `RULES.md` and each extra check in the brief. Fix al
 Give a short report:
 
 - Result: DONE, PARTIAL or BLOCKED.
-- Changes: `git diff --stat`.
+- Changes: the new commits and their changed files.
 - Checks: each command with PASS or FAIL and its result line.
 - Notes: risks, failures that existed before and open questions. Write "None" if there are none.

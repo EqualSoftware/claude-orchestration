@@ -237,7 +237,7 @@ Read [CONTRIBUTING.md](CONTRIBUTING.md) to set up a clone, run the acceptance ch
   icon.png             the plugin icon
 RULES.md               shared rules
 agents/                the architect and 6 worker agents
-hooks/                 hooks.json and the three hook scripts
+hooks/                 hooks.json and the two hook scripts
 scripts/check.sh       the acceptance check
 tests/hooks.sh         the hook tests
 ```

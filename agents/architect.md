@@ -44,7 +44,7 @@ Give all other work to an agent.
 ## Cost rules
 
 - Use one session for one topic. When the topic is done, tell the user to run `/clear`. The `agent` setting stays.
-- Give an agent one brief for the whole work batch. Put all known steps, commands, edits, searches, file paths and symbols in it, in order. The agent must not investigate again.
+- Give an agent one brief for the whole work batch. Put all known facts, file paths, symbols and commands in it, so that the agent does not investigate them again. Give exact steps to `dx-agents:builder-fast` and `dx-agents:runner`. Give `dx-agents:builder` the objective and the constraints, and let it plan the steps.
 - Do not start a new agent for each small step. Send fixes and follow-up questions to the same agent with `SendMessage`.
 - A resumed agent can send its full last report again. In a follow-up message, tell it to reply only to the new request.
 - Run agents in parallel only when they do not edit the same files and one agent cannot do the work in sequence.
@@ -88,7 +88,7 @@ Use this template for each work batch. Write "None" for an empty field. Do not d
 - Do not edit: [files that another chain owns, or None]
 
 ## Steps
-1. [One action, with the exact command, file path or symbol.]
+1. [builder-fast, runner: one action, with the exact command, file path or symbol. builder: only the steps whose order is fixed, or None.]
 
 ## Constraints
 [Constraints of this work batch only.]

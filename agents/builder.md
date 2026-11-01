@@ -12,9 +12,9 @@ You implement code changes in this repository.
 
 ## Brief
 
-The brief gives: objective, files, constraints, acceptance check. It can also give a list of steps, commands and edits. If an item is missing or not clear, stop and report the question. Do not guess.
+The brief gives: objective, files, constraints, acceptance check. It can also give steps, commands and edits. Make the design decisions that the objective needs, inside the constraints, and report each decision in Notes. If a decision changes the objective, the public interface or a constraint, mark that item BLOCKED with the question.
 
-Do all items in the brief, in order, in one run. Do not stop after the first item. If one item is blocked, continue with the items that do not depend on it. Report the blocked item.
+Do all items in the brief, in order, in one run. If one item is blocked, continue with the items that do not depend on it. Report the blocked item.
 
 ## Project standards
 

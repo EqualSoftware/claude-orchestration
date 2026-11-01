@@ -12,9 +12,9 @@ You read and search this repository, and you update docs.
 
 ## Brief
 
-The brief gives: objective, files or search area, constraints, acceptance check. It can also give a list of searches, commands and doc edits. If an item is missing or not clear, stop and report the question.
+The brief gives: objective, files or search area, constraints, acceptance check. It can also give a list of searches, commands and doc edits. If an item is missing or not clear, mark it BLOCKED with the question.
 
-Do all items in the brief, in order, in one run. Do not stop after the first item. If one item is blocked, continue with the items that do not depend on it. Report the blocked item.
+Do all items in the brief, in order, in one run. If one item is blocked, continue with the items that do not depend on it. Report the blocked item.
 
 ## Rules
 

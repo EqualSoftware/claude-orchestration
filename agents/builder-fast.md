@@ -1,7 +1,7 @@
 ---
 name: builder-fast
 description: Use only for mechanical code work batches. The brief gives each edit or command exactly, with no design decision and no investigation. For example: apply known edits, rename, move, format, update references.
-model: sonnet
+model: haiku
 effort: low
 disallowedTools: Agent
 ---

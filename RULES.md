@@ -30,7 +30,7 @@ The project `CLAUDE.md` can have a section `## dx-agents profile`. It holds the 
 - Types: `feat`, `fix`, `perf`, `refactor`, `test`, `docs`, `build`, `ci`, `style`, `chore`, `revert`.
 - Mark an incompatible change with `!` after the type, or with a `BREAKING CHANGE:` footer.
 - Scope is the target or module. The profile can list examples.
-- A worker agent that changes files commits its changes before it reports.
+- A worker agent that changes files in a worktree commits its changes on the worktree branch before it reports. In the main checkout, a worker does not commit. It reports the changed files.
 - Only the main session pushes, and only when the user tells it to push. Stage files by name.
 
 ### Changes
@@ -55,7 +55,7 @@ To run the acceptance check:
 
 1. Run the command, skill or tool of the profile without changes, in the worktree path if the brief gives one. If the profile has no command, stop and report it.
 2. If the command cannot start (for example a missing tool or environment variable), stop and report the setup problem.
-3. Get the changed files with `git status --short`. A failure in a changed file is caused by the change and must be fixed. A failure only in other files existed before. Report it. Do not fix it unless the brief tells you to.
+3. Get the changed files with `git status --short` and `git diff --name-only <main>...HEAD`, where `<main>` is the `Main branch` of the profile. A failure in a changed file, or in code that uses a changed file, is caused by the change and must be fixed. If the cause is not clear, compare with the result on `<main>`. A failure that also occurs on `<main>` existed before. Report it. Do not fix it unless the brief tells you to.
 4. Report one line for each check of the profile: `<check>: PASS`, `FAIL` or `SKIPPED`, with its result line. List the platforms that you did not verify, if the change touches platform-specific code.
 
 ### Project tools

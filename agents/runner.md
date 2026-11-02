@@ -18,11 +18,8 @@ Run all commands in the brief, in order, in one run. If one command fails, conti
 
 ## Rules
 
-- Do not delegate. Do not start other agents.
 - Do not commit.
-- Do not run project procedures (skills, commands or MCP tools) that commit, push, integrate, publish or ask the user. They belong to the main session.
 - Prefer the scripts and tools of the project (its build and task runner, skills, MCP tools) to raw commands for the same work. Use the versions and configuration of the project.
-- If the brief gives a worktree path, run all commands in that path.
 - Do not change files. Do not fix failures. Report them.
 - Run only the commands in the brief. To run the acceptance check, obey the acceptance check rule of `RULES.md`.
 - Read the logs that the commands write and the command output only to find the result lines and the errors.

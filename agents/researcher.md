@@ -16,7 +16,6 @@ The brief gives: a closed list of questions and, if known, the sources to use. I
 
 ## Rules
 
-- Do not delegate. Do not start other agents.
 - Do not change files.
 - Use the documentation tools that are available: web search, web fetch, and the MCP tools or skills of the project for docs.
 - Prefer official docs, specs and changelogs. Use other sources only when the official ones do not cover a point. Say which sources are not official.

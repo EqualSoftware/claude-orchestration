@@ -1,12 +1,12 @@
 # claude-orchestration
 
-`dx-agents` is a Claude Code plugin for agent orchestration. It works with any project, in any language. An architect agent plans with you and gives the work to worker agents. The agents use the tools of each project: its language servers, skills, commands and MCP tools.
+`dx-agents` is a Claude Code plugin for agent orchestration. It works with any project, in any language. An architect agent plans with you and gives the work to worker agents. The agents use the tools of each project: its skills, commands and MCP tools.
 
 The plugin gives:
 
 - **Agents.** `dx-agents:architect` is the main session agent (Opus). It plans and orchestrates. The workers are `dx-agents:builder`, `dx-agents:builder-fast`, `dx-agents:scout`, `dx-agents:runner`, `dx-agents:reviewer` and `dx-agents:researcher` (Sonnet and Haiku).
-- **Tools.** The agents set `disallowedTools`, not a closed `tools` list. They get all the tools of the session, also the language servers, skills and MCP tools of the project. The workers cannot start agents. `dx-agents:runner`, `dx-agents:reviewer` and `dx-agents:researcher` do not get the file edit tools.
-- **Tool order.** An agent that reads or changes code or files uses the language server first, then the tools of the project (skills, MCP tools, formatters, linters, generators, build and task scripts), and the generic file tools last.
+- **Tools.** The agents set `disallowedTools`, not a closed `tools` list. They get all the tools of the session, also the skills and MCP tools of the project. The workers cannot start agents. `dx-agents:runner`, `dx-agents:reviewer` and `dx-agents:researcher` do not get the file edit tools.
+- **Tool order.** An agent that reads or changes code or files uses the tools of the project first (skills, MCP tools, formatters, linters, generators, build and task scripts), and the generic file tools last.
 - **Hooks.** The hooks act only on the agents of the plugin. One hook adds `RULES.md` to the context of each agent. One hook lets the architect start only the worker agents and blocks the `model` and `effort` parameters. One hook denies a full read of a large file in the session of the architect.
 - **Rules.** `RULES.md` holds the shared rules. Each agent obeys them and the `CLAUDE.md` of the project.
 

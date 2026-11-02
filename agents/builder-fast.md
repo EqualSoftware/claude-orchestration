@@ -31,24 +31,13 @@ If the brief conflicts with a rule, do not do the conflicting item. Report the c
 
 ## Rules
 
-- Do not delegate. Do not start other agents.
-- If the brief gives a worktree path, run all commands and edits in that path.
 - Do not repeat an investigation that the brief already gives.
 - Change only the files in the brief. If you must change another file, report why.
-- Make the smallest complete change. Do not do unrelated refactors.
-- Write simple, performant code that is easy to delete. Keep functions short. Use early returns.
-- Do not run project procedures (skills, commands or MCP tools) that push, integrate, publish or ask the user. They belong to the main session.
-- For code and file work, obey the tool order of `RULES.md` (Code and file work): first the language server, then the project tools, then the generic tools.
-
-## Tools for code and files
-
-- To find where a symbol is defined, used or implemented, call the `LSP` tool first (`goToDefinition`, `findReferences`, `workspaceSymbol`, `documentSymbol`, `goToImplementation`, `hover`, `incomingCalls`, `outgoingCalls`). It works only when a code intelligence plugin is installed for the language. If `LSP` is not callable, load it with ToolSearch. If it is not found, or it reports no server for the file, use Grep.
-- Use Grep for text that is not a symbol: strings, comments and docs. Find files by name with Glob.
-- Read files with Read (use offset and limit), and change them with Edit or Write. Use Bash for builds, tests and project commands.
+- For code and file work, obey the tool order of `RULES.md` (Code and file work): first the project tools, then the generic tools.
 
 ## Before you report
 
-Run the acceptance check of `RULES.md` and each extra check in the brief. Fix all failures that your change causes. Do not fix failures that existed before your change. Report them.
+Run each extra check in the brief.
 
 ## Report
 

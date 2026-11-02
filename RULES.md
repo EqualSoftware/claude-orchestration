@@ -60,9 +60,8 @@ To run the acceptance check:
 
 ### Project tools
 
-The project can give its own skills, commands, MCP tools and language servers. The agents of the plugin get all the tools of the session, except the tools that their file disallows.
+The project can give its own skills, commands and MCP tools. The agents of the plugin get all the tools of the session, except the tools that their file disallows.
 
-- Use a project tool when it applies to the work. Prefer it to a manual procedure for the same work.
 - The procedures for planning, integration, publication and questions to the user belong to the main session. A worker agent does not run them.
 - The brief can name the project tools that a worker must use.
 
@@ -70,12 +69,11 @@ The project can give its own skills, commands, MCP tools and language servers. T
 
 Each agent that reads, searches or changes code or files obeys this order. Use a generic tool only when no tool of a higher step applies.
 
-1. **Language server.** If an LSP tool is available for the language of the file, use it to find definitions, references, implementations, symbols, types and diagnostics. Do not use a text search for these when the language server can answer. Use its rename and code actions for changes that it supports.
-2. **Project tools.** Use the skills, MCP tools and commands of the project, and the tools that the project installs: formatters, linters, code generators, refactor and migration tools, and the scripts of its build and task runner (for example `make`, `npm run`, `cargo`, `just`). Use them in the versions and with the configuration of the project. Do not install a new tool or use a global version when the project gives one.
-3. **Generic tools.** Use `Read`, `Grep`, `Glob`, `Edit` and `Write` for the remaining work. Do not use `Bash` to read, search or edit files (`cat`, `sed`, `awk`, `echo >`) when a generic tool can do it.
+1. **Project tools.** Use the skills, MCP tools and commands of the project, and the tools that the project installs: formatters, linters, code generators, refactor and migration tools, and the scripts of its build and task runner (for example `make`, `npm run`, `cargo`, `just`). Use them in the versions and with the configuration of the project. Do not install a new tool or use a global version when the project gives one.
+2. **Generic tools.** Use `Read`, `Grep`, `Glob`, `Edit` and `Write` for the remaining work. Do not use `Bash` to read, search or edit files (`cat`, `sed`, `awk`, `echo >`) when a generic tool can do it.
 
 - To find the available tools, read the project `CLAUDE.md`, the build and task runner files, and the list of tools of the session. Do this one time for each brief, not before each step.
-- After you edit a file, run the formatter and the diagnostics of the project for it, if they exist, before the acceptance check.
+- After you edit a file, run the formatter of the project on it, if one exists, before the acceptance check.
 - If a project tool fails or gives a result that is not correct, use the next step and report the failure.
 
 ### Independent review
@@ -86,19 +84,7 @@ Each agent that reads, searches or changes code or files obeys this order. Use a
 
 ### Agents
 
-The main session runs as `dx-agents:architect` (Opus) when the project sets `agent` to it, or with `claude --agent dx-agents:architect`. It plans, decides and orchestrates. Its file `agents/architect.md` holds the orchestration rules.
-
-- The worker agents are the other files in `agents/`. They use Sonnet or Haiku. Each agent file sets its model and effort.
-- Select a worker from the `description` in its file. Do not pass a `model` or `effort` parameter. In a session of the architect, a hook of the plugin blocks other agent types, the `model` and `effort` parameters and Opus workers.
-- In a session of the architect, a hook of the plugin denies a full read of a file over the line limit. Read a section with `offset` and `limit`, or give the question to `dx-agents:scout`.
+- The architect rules are in `agents/architect.md`.
 - A worker agent does not start other agents.
 - A subagent cannot ask the user. Plans and decisions with the user stay in the main session.
 - `.claude/worktrees/` holds the worktrees of the architect. Exclude it when you search the repository.
-
-### Workflow
-
-1. **Plan.** The user gives requirements. The main session makes a plan with work batches.
-2. **Refine.** Ask the user until no question is open and the user confirms the same understanding.
-3. **Approve.** Only the user approves a plan.
-4. **Build.** Start agents for the work batches. Each work batch is one brief. The execution rules are in `agents/architect.md`.
-5. **Accept.** Check the result against the plan, run the acceptance check and obey the independent review rule.

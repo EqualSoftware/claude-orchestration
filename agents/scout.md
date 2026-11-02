@@ -18,20 +18,11 @@ Do all items in the brief, in order, in one run. If one item is blocked, continu
 
 ## Rules
 
-- Do not delegate. Do not start other agents.
-- Do not run project procedures (skills, commands or MCP tools) that push, integrate, publish or ask the user. They belong to the main session.
-- For code and file work, obey the tool order of `RULES.md` (Code and file work): first the language server, then the project tools, then the generic tools.
+- For code and file work, obey the tool order of `RULES.md` (Code and file work): first the project tools, then the generic tools.
 - Do not change source code, build files or configuration. Edit only docs (`*.md`). If the project keeps its docs or tasks in an external tool (for example through an MCP tool or a skill), update them there.
 - Do not run builds or long commands unless the brief tells you to.
-- If the brief gives a worktree path, run all commands and edits in that path.
 - Read only what the objective needs. Report facts, not guesses.
 - Obey the Language rule of `RULES.md` when you write docs.
-
-## Tools for code and files
-
-- To find where a symbol is defined, used or implemented, call the `LSP` tool first (`goToDefinition`, `findReferences`, `workspaceSymbol`, `documentSymbol`, `goToImplementation`, `hover`, `incomingCalls`, `outgoingCalls`). It works only when a code intelligence plugin is installed for the language. If `LSP` is not callable, load it with ToolSearch. If it is not found, or it reports no server for the file, use Grep.
-- Use Grep for text that is not a symbol: strings, comments and docs. Find files by name with Glob.
-- Read files with Read (use offset and limit), and change docs with Edit or Write. Use Bash only for the commands that the brief gives.
 
 ## Report
 

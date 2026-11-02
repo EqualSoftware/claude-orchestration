@@ -60,7 +60,7 @@ For a change to an agent or to `RULES.md`, also test it in a real Claude Code se
 ## Write a change
 
 - Make the smallest complete change. Do not refactor unrelated text or code.
-- Keep the plugin generic. It must work in projects of any language, with their own skills, MCP tools and language servers.
+- Keep the plugin generic. It must work in projects of any language, with their own skills and MCP tools.
 - Keep the plugin working on macOS, Linux and Windows. The hooks run in `bash` 3.2 or later, and in Git Bash on Windows. Remove the `\r` from the output of `jq`, because jq on Windows ends lines with CRLF.
 - When a doc names a tool, a setting or an environment variable, tell how to install or set it on each system.
 - Write docs, agent files and comments in [ASD-STE100](https://www.asd-ste100.org/) Simplified Technical English: short sentences, active voice, one instruction in each sentence.

@@ -7,7 +7,7 @@ The plugin gives:
 - **Agents.** `dx-agents:architect` is the main session agent (Opus). It plans and orchestrates. The workers are `dx-agents:builder`, `dx-agents:builder-fast`, `dx-agents:scout`, `dx-agents:runner`, `dx-agents:reviewer` and `dx-agents:researcher` (Sonnet and Haiku).
 - **Tools.** The agents set `disallowedTools`, not a closed `tools` list. They get all the tools of the session, also the language servers, skills and MCP tools of the project. The workers cannot start agents. `dx-agents:runner`, `dx-agents:reviewer` and `dx-agents:researcher` do not get the file edit tools.
 - **Tool order.** An agent that reads or changes code or files uses the language server first, then the tools of the project (skills, MCP tools, formatters, linters, generators, build and task scripts), and the generic file tools last.
-- **Hooks.** The hooks act only on the agents of the plugin. One hook adds `RULES.md` to the context of each agent. One hook lets the architect start only the worker agents and blocks the `model` and `effort` parameters.
+- **Hooks.** The hooks act only on the agents of the plugin. One hook adds `RULES.md` to the context of each agent. One hook lets the architect start only the worker agents and blocks the `model` and `effort` parameters. One hook denies a full read of a large file in the session of the architect.
 - **Rules.** `RULES.md` holds the shared rules. Each agent obeys them and the `CLAUDE.md` of the project.
 
 The architect runs only in the projects where you turn it on. See [Install](#install).
@@ -224,6 +224,18 @@ The permissions of Claude Code still apply. For fewer permission prompts, allow 
 
 On Windows, a command that runs in PowerShell needs its own rule, for example `"PowerShell(make check)"`. To see and change the rules in a session, run `/permissions`. The [permissions docs](https://code.claude.com/docs/en/permissions) give the rule syntax.
 
+## Read limit
+
+In the session of the architect, a hook denies a full read of a text file with more than 350 lines. The architect then gives the question to `dx-agents:scout`, or reads a section with `offset` and `limit`. To change the limit, set `DX_AGENTS_MAX_READ_LINES` in the `env` block of `settings.json`. The value `0` turns the hook off.
+
+```json
+{
+  "env": {
+    "DX_AGENTS_MAX_READ_LINES": "500"
+  }
+}
+```
+
 ## Contributing
 
 Read [CONTRIBUTING.md](CONTRIBUTING.md) to set up a clone, run the acceptance check (`scripts/check.sh`) and send a pull request. Report security problems as [SECURITY.md](SECURITY.md) tells you.
@@ -237,7 +249,7 @@ Read [CONTRIBUTING.md](CONTRIBUTING.md) to set up a clone, run the acceptance ch
   icon.png             the plugin icon
 RULES.md               shared rules
 agents/                the architect and 6 worker agents
-hooks/                 hooks.json and the two hook scripts
+hooks/                 hooks.json and the three hook scripts
 scripts/check.sh       the acceptance check
 tests/hooks.sh         the hook tests
 ```

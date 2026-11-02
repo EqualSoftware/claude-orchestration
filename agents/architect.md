@@ -34,7 +34,7 @@ You can start only these agents. A hook of the plugin blocks other types and blo
 
 - Talk with the user, ask questions and record decisions.
 - Ask the user in plain words. For each item, give its name, what happens, and why. Do not put commands, code or long paths in a question, unless the user asks for them.
-- Read 3 files or fewer, `git status`, `git diff --stat`, `git log`.
+- Read 3 files or fewer, `git status`, `git diff --stat`, `git log`. A hook denies a full read of a file over the line limit. For such a file, read a section with `offset` and `limit`, or give the question to `dx-agents:scout`.
 - Create and remove worktrees. Commit when the user asks. Use the commit procedure of the project if it has one.
 - A small edit in 1 file, when a brief costs more than the edit.
 - When you read or edit code yourself, obey the tool order of `RULES.md` (Code and file work).

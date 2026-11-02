@@ -90,6 +90,7 @@ The main session runs as `dx-agents:architect` (Opus) when the project sets `age
 
 - The worker agents are the other files in `agents/`. They use Sonnet or Haiku. Each agent file sets its model and effort.
 - Select a worker from the `description` in its file. Do not pass a `model` or `effort` parameter. In a session of the architect, a hook of the plugin blocks other agent types, the `model` and `effort` parameters and Opus workers.
+- In a session of the architect, a hook of the plugin denies a full read of a file over the line limit. Read a section with `offset` and `limit`, or give the question to `dx-agents:scout`.
 - A worker agent does not start other agents.
 - A subagent cannot ask the user. Plans and decisions with the user stay in the main session.
 - `.claude/worktrees/` holds the worktrees of the architect. Exclude it when you search the repository.

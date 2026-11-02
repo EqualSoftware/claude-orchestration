@@ -40,6 +40,55 @@ expect check-agent.sh allow "$(agent "Explore" "")"
 expect check-agent.sh allow "$(agent "general-purpose" "general-purpose")"
 expect check-agent.sh allow "$(jq -nc '{tool_input: {subagent_type: "Plan", model: "opus"}}')"
 
+# check-read.sh: deny a full read of a large text file in the architect session.
+TMP="$(mktemp -d)"
+trap 'rm -rf "$TMP"' EXIT
+seq 350 > "$TMP/350.txt"
+seq 351 > "$TMP/351.txt"
+seq 11 > "$TMP/11.txt"
+head -c 20000 /dev/zero > "$TMP/binary.bin"
+: > "$TMP/empty.txt"
+# read_input <file> [session agent_type] [extra tool_input as json]
+read_input() { jq -nc --arg f "$1" --arg s "${2-$ARCHITECT}" --argjson x "${3:-null}" '{tool_input: ({file_path: $f} + ($x // {}))} + (if $s == "" then {} else {agent_type: $s} end)'; }
+# expect_env <variable value> <allow|deny> <json input>
+expect_env() {
+  local got
+  got="$(DX_AGENTS_MAX_READ_LINES="$1" CLAUDE_PLUGIN_ROOT="$ROOT" "$ROOT/hooks/check-read.sh" <<< "$3" | jq -r '.hookSpecificOutput.permissionDecision' | tr -d '\r')"
+  got="${got:-allow}"
+  COUNT=$((COUNT + 1))
+  [ "$got" = "$2" ] && return
+  echo "FAIL check-read.sh with limit $1 expected $2, got $got: $3"
+  FAILED=$((FAILED + 1))
+}
+expect check-read.sh allow "$(read_input "$TMP/350.txt")"
+expect check-read.sh deny "$(read_input "$TMP/351.txt")"
+expect check-read.sh allow "$(read_input "$TMP/binary.bin")"
+expect check-read.sh allow "$(read_input "$TMP/empty.txt")"
+expect check-read.sh allow "$(read_input "$TMP/351.txt" "$ARCHITECT" '{"offset": 1}')"
+expect check-read.sh allow "$(read_input "$TMP/351.txt" "$ARCHITECT" '{"limit": 100}')"
+expect check-read.sh allow "$(read_input "$TMP/351.txt" "$ARCHITECT" '{"pages": "1-2"}')"
+expect check-read.sh allow "$(read_input "$TMP/351.txt" "$ARCHITECT" '{"offset": 0}')"
+expect check-read.sh allow "not json"
+expect check-read.sh allow ""
+mkdir "$TMP/with space"
+seq 351 > "$TMP/with space/351.txt"
+expect check-read.sh deny "$(read_input "$TMP/with space/351.txt")"
+seq 351 | sed 's/$/ caf\xe9/' > "$TMP/latin1.txt"
+expect check-read.sh deny "$(read_input "$TMP/latin1.txt")"
+seq 351 > "$TMP/-dash.txt"
+cd "$TMP" || exit 1
+expect check-read.sh deny "$(read_input "-dash.txt")"
+cd "$ROOT" || exit 1
+expect check-read.sh allow "$(read_input "$TMP/missing.txt")"
+expect check-read.sh allow "$(read_input "$TMP")"
+expect check-read.sh allow "$(read_input "$TMP/351.txt" "")"
+expect check-read.sh allow "$(read_input "$TMP/351.txt" "$PLUGIN:builder")"
+expect_env 0 allow "$(read_input "$TMP/351.txt")"
+expect_env 10 deny "$(read_input "$TMP/11.txt")"
+expect_env abc deny "$(read_input "$TMP/351.txt")"
+expect_env abc allow "$(read_input "$TMP/350.txt")"
+expect_env -5 deny "$(read_input "$TMP/351.txt")"
+
 # expect_rules <yes|no> <json input>
 expect_rules() {
   local got=no
@@ -79,6 +128,7 @@ expect_nojq() {
 }
 expect_nojq check-agent.sh 2 "$(agent "$PLUGIN:builder")"
 expect_nojq check-agent.sh 0 "$(agent "Explore" "")"
+expect_nojq check-read.sh 0 "$(read_input "$TMP/351.txt")"
 expect_nojq inject-rules.sh 0 "$(rules_input SubagentStart "$PLUGIN:builder")"
 rm -rf "$NOJQ"
 

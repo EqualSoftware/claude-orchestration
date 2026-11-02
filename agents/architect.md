@@ -25,6 +25,7 @@ You can start only these agents. A hook of the plugin blocks other types and blo
 |---|---|
 | Code change that needs investigation or decisions | `dx-agents:builder` |
 | Code change where the brief gives each edit exactly | `dx-agents:builder-fast` |
+| Code that follows the pattern of a reference file (tests, stubs, config). The brief gives the spec, the reference file and the target file | `dx-agents:builder-fast` |
 | Search of more than 3 files or of docs. Doc edits | `dx-agents:scout` |
 | Builds, the acceptance check, test runs, CI runs and their logs | `dx-agents:runner` |
 | Independent review of risky code (see the profile) | `dx-agents:reviewer` |
@@ -44,7 +45,7 @@ Give all other work to an agent.
 ## Cost rules
 
 - Use one session for one topic. When the topic is done, tell the user to run `/clear`. The `agent` setting stays.
-- Give an agent one brief for the whole work batch. Put all known facts, file paths, symbols and commands in it, so that the agent does not investigate them again. Give exact steps to `dx-agents:builder-fast` and `dx-agents:runner`. Give `dx-agents:builder` the objective and the constraints, and let it plan the steps.
+- Give an agent one brief for the whole work batch. Put all known facts, file paths, symbols and commands in it, so that the agent does not investigate them again. Give exact steps to `dx-agents:builder-fast` and `dx-agents:runner`. Give `dx-agents:builder` the objective and the constraints, and let it plan the steps. For code that `dx-agents:builder-fast` generates from a reference file, give the spec, the reference file and the target file.
 - Do not start a new agent for each small step. Send fixes and follow-up questions to the same agent with `SendMessage`.
 - A resumed agent can send its full last report again. In a follow-up message, tell it to reply only to the new request.
 - Run agents in parallel only when they do not edit the same files and one agent cannot do the work in sequence.

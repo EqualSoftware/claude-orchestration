@@ -1,5 +1,16 @@
 # Changelog
 
+## [0.2.0](https://github.com/EqualSoftware/claude-orchestration/compare/v0.1.0...v0.2.0) (2026-11-02)
+
+
+### ⚠ BREAKING CHANGES
+
+* **rules:** remove the language server step and the duplicated agent rules
+
+### docs
+
+* **rules:** remove the language server step and the duplicated agent rules ([8d60e4d](https://github.com/EqualSoftware/claude-orchestration/commit/8d60e4d932912f02f956e1b94e60ed6a0619227e))
+
 ## 0.1.0 (2026-11-02)
 
 

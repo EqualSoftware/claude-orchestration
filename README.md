@@ -236,6 +236,19 @@ In the session of the architect, a hook denies a full read of a text file with m
 }
 ```
 
+## Measure the token usage
+
+The script `scripts/token-usage.sh` shows the token usage of one session. It makes one row for each agent and model, and a total row for each model. The columns are input, cache write, cache read and output. Use it to find the cost of the agents, or to compare two sessions.
+
+```sh
+scripts/token-usage.sh <session id>
+scripts/token-usage.sh <path to session .jsonl>
+```
+
+To find the session id, run `/status` in the session. The id is also the name of the transcript file: `~/.claude/projects/<project folder>/<session id>.jsonl`. The script reads this file and the files in `<session id>/subagents/`. The agent is `main` for the session file. For a subagent, it is the agent type, for example `dx-agents:builder`.
+
+The script needs `bash` and `jq`. See [Requirements](#requirements).
+
 ## Contributing
 
 Read [CONTRIBUTING.md](CONTRIBUTING.md) to set up a clone, run the acceptance check (`scripts/check.sh`) and send a pull request. Report security problems as [SECURITY.md](SECURITY.md) tells you.
@@ -251,6 +264,7 @@ RULES.md               shared rules
 agents/                the architect and 6 worker agents
 hooks/                 hooks.json and the three hook scripts
 scripts/check.sh       the acceptance check
+scripts/token-usage.sh the token usage report
 tests/hooks.sh         the hook tests
 ```
 

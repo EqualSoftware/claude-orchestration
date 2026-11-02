@@ -9,6 +9,7 @@ on:
     paths-ignore:
       - CHANGELOG.md
       - .release-please-manifest.json
+      - .claude-plugin/plugin.json
 
 permissions:
   contents: read
